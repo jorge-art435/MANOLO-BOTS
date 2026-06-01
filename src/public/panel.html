@@ -6,27 +6,23 @@
   <title>Manolo Gastrobar - Panel de Pedidos</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: Arial, sans-serif; background: #0a0a0a; color: #f0f0f0; }
+    body { font-family: Arial, sans-serif; background: #111111; color: #f0f0f0; }
 
     header {
-      background: linear-gradient(135deg, #1a1a1a, #0a0a0a);
-      border-bottom: 2px solid #c8a84b;
+      background: #1a1a1a;
+      border-bottom: 3px solid #c8a84b;
       padding: 20px;
       text-align: center;
     }
-    header h1 { font-size: 28px; color: #c8a84b; letter-spacing: 3px; text-transform: uppercase; }
-    header p { font-size: 13px; color: #888; margin-top: 4px; }
+    header h1 { font-size: 28px; color: #c8a84b; letter-spacing: 3px; }
+    header p { font-size: 13px; color: #999; margin-top: 4px; }
 
     .contenedor { max-width: 1000px; margin: 30px auto; padding: 0 20px; }
 
-    .stats {
-      display: flex;
-      gap: 15px;
-      margin-bottom: 30px;
-    }
+    .stats { display: flex; gap: 15px; margin-bottom: 30px; }
+
     .stat-card {
-      background: #1a1a1a;
-      border: 1px solid #2a2a2a;
+      background: #222222;
       border-top: 3px solid #c8a84b;
       border-radius: 10px;
       padding: 15px 20px;
@@ -34,15 +30,13 @@
       text-align: center;
     }
     .stat-card h2 { font-size: 36px; color: #c8a84b; }
-    .stat-card p { font-size: 13px; color: #888; margin-top: 4px; }
+    .stat-card p { font-size: 13px; color: #aaa; margin-top: 4px; }
 
     .pedido-card {
-      background: #1a1a1a;
+      background: #222222;
       border-radius: 10px;
       padding: 20px;
       margin-bottom: 20px;
-      border-left: 5px solid #c8a84b;
-      border: 1px solid #2a2a2a;
       border-left: 5px solid #c8a84b;
     }
     .pedido-header {
@@ -52,11 +46,11 @@
       margin-bottom: 15px;
     }
     .pedido-header h3 { font-size: 18px; color: #c8a84b; }
-    .pedido-header span { font-size: 13px; color: #666; }
+    .pedido-header span { font-size: 13px; color: #777; }
 
     .pedido-info { margin-bottom: 15px; }
-    .pedido-info p { font-size: 14px; color: #aaa; margin-bottom: 6px; }
-    .pedido-info strong { color: #ddd; }
+    .pedido-info p { font-size: 14px; color: #bbb; margin-bottom: 6px; }
+    .pedido-info strong { color: #eee; }
 
     .productos { margin-bottom: 15px; }
     .productos h4 { font-size: 14px; color: #c8a84b; margin-bottom: 8px; }
@@ -64,9 +58,9 @@
       display: flex;
       justify-content: space-between;
       font-size: 14px;
-      color: #aaa;
+      color: #bbb;
       padding: 5px 0;
-      border-bottom: 1px solid #2a2a2a;
+      border-bottom: 1px solid #333;
     }
 
     .pedido-footer {
@@ -82,7 +76,7 @@
       border: 2px solid #c8a84b;
       font-size: 14px;
       cursor: pointer;
-      background: #0a0a0a;
+      background: #333;
       color: #f0f0f0;
     }
 
@@ -93,10 +87,10 @@
       font-size: 12px;
       font-weight: bold;
     }
-    .badge-recibido { background: #2a2000; color: #c8a84b; }
-    .badge-preparacion { background: #1a0000; color: #e05555; }
-    .badge-camino { background: #1a1000; color: #e0a030; }
-    .badge-entregado { background: #0a1a0a; color: #50c050; }
+    .badge-recibido { background: #3a2800; color: #c8a84b; }
+    .badge-preparacion { background: #3a0000; color: #ff6666; }
+    .badge-camino { background: #3a2000; color: #ffaa33; }
+    .badge-entregado { background: #003a00; color: #66cc66; }
 
     .sin-pedidos {
       text-align: center;
@@ -107,7 +101,7 @@
 
     button#recargar {
       background: #c8a84b;
-      color: #0a0a0a;
+      color: #111;
       border: none;
       padding: 10px 20px;
       border-radius: 6px;
@@ -117,4 +111,4 @@
       margin-bottom: 20px;
     }
     button#recargar:hover { background: #e0c060; }
-  </style>
+</style>

@@ -147,4 +147,71 @@
     const pedidos = await res.json();
 
     document.getElementById('total-pedidos').textContent = pedidos.length;
-    document.getElementById('en-proceso').textContent = pedidos.filter(
+    document.getElementById('en-proceso').textContent = pedidos.filter(p => p.estado !== 'entregado').length;
+    document.getElementById('entregados').textContent = pedidos.filter(p => p.estado === 'entregado').length;
+
+    const lista = document.getElementById('lista-pedidos');
+
+    if (pedidos.length === 0) {
+      lista.innerHTML = '<div class="sin-pedidos">😴 No hay pedidos hoy todavía</div>';
+      return;
+    }
+
+    lista.innerHTML = pedidos.map(pedido => {
+      const fecha = new Date(pedido.fecha).toLocaleTimeString('es-CO', { hour: '2-digit', minute: '2-digit' });
+      const badgeClass = {
+        'recibido': 'badge-recibido',
+        'en preparación': 'badge-preparacion',
+        'en camino': 'badge-camino',
+        'entregado': 'badge-entregado'
+      }[pedido.estado] || 'badge-recibido';
+
+      return `
+        <div class="pedido-card">
+          <div class="pedido-header">
+            <h3>👤 ${pedido.clientes?.nombre || 'Cliente'}</h3>
+            <span>⏰ ${fecha}</span>
+          </div>
+          <div class="pedido-info">
+            <p>📱 <strong>WhatsApp:</strong> +${pedido.clientes?.whatsapp || ''}</p>
+            <p>📍 <strong>Dirección:</strong> ${pedido.direccion}</p>
+            <p>🏷️ <strong>Estado:</strong> <span class="badge ${badgeClass}">${pedido.estado}</span></p>
+          </div>
+          <div class="productos">
+            <h4>🛒 Productos:</h4>
+            ${pedido.items_pedido?.map(item => `
+              <div class="producto-item">
+                <span>${item.nombre_producto}</span>
+                <span>x${item.cantidad}</span>
+              </div>
+            `).join('') || '<p>Sin productos</p>'}
+          </div>
+          <div class="pedido-footer">
+            <span class="total">💰 Total: $${pedido.total?.toLocaleString('es-CO') || 'Por confirmar'}</span>
+            <select onchange="cambiarEstado('${pedido.id}', this.value)">
+              <option ${pedido.estado === 'recibido' ? 'selected' : ''}>recibido</option>
+              <option ${pedido.estado === 'en preparación' ? 'selected' : ''}>en preparación</option>
+              <option ${pedido.estado === 'en camino' ? 'selected' : ''}>en camino</option>
+              <option ${pedido.estado === 'entregado' ? 'selected' : ''}>entregado</option>
+            </select>
+          </div>
+        </div>
+      `;
+    }).join('');
+  }
+
+  async function cambiarEstado(id, estado) {
+    await fetch(`/panel/pedidos/${id}`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ estado })
+    });
+    cargarPedidos();
+  }
+
+  cargarPedidos();
+  setInterval(cargarPedidos, 30000);
+</script>
+
+</body>
+</html>

@@ -112,3 +112,39 @@
     }
     button#recargar:hover { background: #e0c060; }
 </style>
+</head>
+<body>
+
+<header>
+  <h1>🍽️ Manolo Gastrobar</h1>
+  <p>Panel de pedidos del día</p>
+</header>
+
+<div class="contenedor">
+  <div class="stats">
+    <div class="stat-card">
+      <h2 id="total-pedidos">0</h2>
+      <p>Pedidos hoy</p>
+    </div>
+    <div class="stat-card">
+      <h2 id="en-proceso">0</h2>
+      <p>En proceso</p>
+    </div>
+    <div class="stat-card">
+      <h2 id="entregados">0</h2>
+      <p>Entregados</p>
+    </div>
+  </div>
+
+  <button id="recargar" onclick="cargarPedidos()">🔄 Actualizar pedidos</button>
+
+  <div id="lista-pedidos"></div>
+</div>
+
+<script>
+  async function cargarPedidos() {
+    const res = await fetch('/panel/pedidos');
+    const pedidos = await res.json();
+
+    document.getElementById('total-pedidos').textContent = pedidos.length;
+    document.getElementById('en-proceso').textContent = pedidos.filter(

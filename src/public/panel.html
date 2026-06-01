@@ -8,9 +8,10 @@
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { font-family: Arial, sans-serif; background: #111111; color: #f0f0f0; }
 
-    header {
+   header {
       background: #1a1a1a;
       border-bottom: 3px solid #c8a84b;
+      border-top: 3px solid #c0392b;
       padding: 20px;
       text-align: center;
     }
@@ -93,31 +94,50 @@
     .badge-entregado { background: #003a00; color: #66cc66; }
 
     .sin-pedidos {
-      text-align: center;
-      padding: 60px;
-      color: #555;
-      font-size: 16px;
-    }
+  text-align: center;
+  padding: 60px;
+  color: #c8a84b;
+  font-size: 16px;
+  border: 1px dashed #333;
+  border-radius: 10px;
+  margin-top: 20px;
+}
 
-    button#recargar {
-      background: #c8a84b;
-      color: #111;
-      border: none;
-      padding: 10px 20px;
-      border-radius: 6px;
-      cursor: pointer;
-      font-size: 14px;
-      font-weight: bold;
-      margin-bottom: 20px;
-    }
-    button#recargar:hover { background: #e0c060; }
+.header-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+header {
+  border-top: 3px solid #c0392b;
+}
+.pedido-card {
+  border-left: 5px solid #c0392b !important;
+}
+
+button#recargar {
+  background: #c8a84b;
+  color: #111;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+button#recargar:hover { background: #e0c060; }
 </style>
 </head>
 <body>
 
 <header>
-  <h1>🍽️ Manolo Gastrobar</h1>
-  <p>Panel de pedidos del día</p>
+  <div class="header-content">
+    <div>
+      <h1>🍽️ Manolo Gastrobar</h1>
+      <p>Panel de pedidos del día</p>
+    </div>
+  </div>
 </header>
 
 <div class="contenedor">
@@ -153,7 +173,7 @@
     const lista = document.getElementById('lista-pedidos');
 
     if (pedidos.length === 0) {
-      lista.innerHTML = '<div class="sin-pedidos">😴 No hay pedidos hoy todavía</div>';
+      lista.innerHTML = '<div class="sin-pedidos">🍽️ Por el momento no hay pedidos. ¡En breve llegará el primero!</div>';
       return;
     }
 

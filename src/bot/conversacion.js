@@ -41,7 +41,7 @@ ${nombreCliente ? `El cliente se llama ${nombreCliente}, ya ha pedido antes. Sal
 FLUJO DE LA CONVERSACIÓN:
 1. Saluda al cliente y pregúntale su nombre (si es nuevo)
 2. Pregúntale si ya sabe qué quiere pedir o si quiere ver el menú
-3. Si quiere el menú, envíale este link: https://preview--manolo-digital-menu.lovable.app
+3. Si quiere el menú, envíale este link: https://manologastrobar.com
 4. Toma el pedido completo (productos y cantidades)
 5. Pide la dirección de entrega
 6. Confirma el pedido con un resumen

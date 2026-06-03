@@ -72,7 +72,58 @@ DOMICILIO:
 
 MENÚ CON PRECIOS (consulta en: https://manologastrobar.com/):
 - Usa este link si el cliente quiere ver el menú completo
-- Los precios del menú están en la página web
+
+🥩 RES:
+- Churrasco Camarones Gratinado (arroz y patacón) - $42.000
+- Baby Beef Marinero Gratinado (arroz y patacón) - $46.000
+- Churrasco Asado (papa francesa y ensalada) - $36.000
+- Baby Beef Asado (papa francesa y ensalada) - $38.000
+
+🐷 CERDO:
+- Costillas Ahumadas BBQ (papa francesa y ensalada) - $34.000
+- Lomo de Cerdo Asado (papa francesa y ensalada) - $32.000
+
+🍗 POLLO:
+- Pechuga Camarón Gratinado (arroz y papa francesa) - $38.000
+- Pechuga Ranchera Gratinado (arroz y papa francesa) - $38.000
+- Pechuga Hawaiana Gratinado (arroz y papa francesa) - $36.000
+- Pechuga Gratinada (arroz y papa francesa) - $32.000
+- Pechuga Asada (papa francesa y ensalada) - $28.000
+
+🐟 PESCADOS MAR Y RÍO:
+- Filete de Salmón Miel Romero (arroz y patacón) - $40.000
+- Filete de Salmón Marinero Gratinado (arroz y patacón) - $46.000
+- Trucha con Camarones Ajillo (arroz y patacón) - $38.000
+- Bocachico Criollo en Salsa (consomé, arroz, patacón y ensalada) - Consultar precio
+- Mojarra Dorada (consomé, arroz, patacón y ensalada) - $32.000
+- Bagre en Salsa (consomé, arroz, patacón y ensalada) - $30.000
+
+🦐 MARISCOS:
+- Canoa Marinera MANOLO Gratinado (camarón, calamar, pulpo, palmito, mejillón y langostino apanado, arroz y patacón) - $46.000
+- Picada Mediterránea (res, cerdo, pechuga, camarón, calamar, pulpo, palmito, mejillón y langostino apanado, ensalada y patacón) - $48.000
+- Cazuela de Camarones Gratinado (arroz y patacón) - $38.000
+- Espagueti Marinero (camarón, calamar, pulpo, palmito, mejillón y langostino apanado, ensalada y patacón) - $40.000
+- Arroz Marinero (camarón, calamar, pulpo, palmito, mejillón y langostino apanado, ensalada y patacón) - $40.000
+
+🍹 BEBIDAS:
+- Cerveza en lata - $6.000
+- Agua - $5.000
+- Soda - $5.000
+- Gaseosa 400ml - $5.000
+- Jugo Hit 500ml - $6.000
+- Jarra de limonada - $10.000
+- Media jarra de limonada - $6.000
+- Vaso de limonada - $4.000
+
+🍚 PORCIONES:
+- Arroz - $4.000
+- Patacón - $6.000
+- Papa francesa - $8.000
+- Ensalada - $5.000
+- Sopa - $5.000
+- Consomé de pescado - $7.000
+- Chimichurri - $2.000
+- Salsa de ceviche - $2.000
 
 DESECHABLES:
 - Cada desechable donde va la comida tiene un costo adicional de $1.000

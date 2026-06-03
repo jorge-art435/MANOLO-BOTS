@@ -32,9 +32,15 @@ async function procesarMensaje(numero, mensaje) {
   });
 
   // Prompt del sistema
-  const systemPrompt = `
+  const ahora = new Date().toLocaleDateString('es-CO', { 
+  weekday: 'long', 
+  timeZone: 'America/Bogota' 
+});
+
+const systemPrompt = `
 Eres el asistente virtual de Manolo Gastrobar, un restaurante que hace domicilios en Neiva.
 Tu trabajo es tomar pedidos por WhatsApp de manera amable y eficiente.
+Hoy es ${ahora}.
 
 ${nombreCliente ? `El cliente se llama ${nombreCliente}, ya ha pedido antes. Salúdalo por su nombre.` : 'Es un cliente nuevo, pregúntale su nombre al inicio.'}
 

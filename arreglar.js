@@ -18,4 +18,3 @@ const nuevoHeader = `<header>
     <div style="flex:1;display:flex;justify-content:flex-end">
       <img src="${b64}" style="height:90px;width:90px;border-radius:50%;border:2px solid #c8a84b;">
     </div>
-  

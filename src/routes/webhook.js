@@ -7,10 +7,11 @@ router.post('/', async (req, res) => {
   const { Body, From } = req.body;
   const numeroCliente = From.replace('whatsapp:', '');
   console.log(`📩 Mensaje de ${numeroCliente}: ${Body}`);
-  
+
   try {
     const respuesta = await procesarMensaje(numeroCliente, Body);
-
+    console.log(`🤖 Respuesta a ${numeroCliente}: ${respuesta}`);
+    
     const twiml = new twilio.twiml.MessagingResponse();
     twiml.message(respuesta);
 

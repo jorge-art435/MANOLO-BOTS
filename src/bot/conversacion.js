@@ -32,12 +32,12 @@ async function procesarMensaje(numero, mensaje) {
   });
 
   // Prompt del sistema
-  const ahora = new Date().toLocaleDateString('es-CO', { 
-  weekday: 'long', 
-  timeZone: 'America/Bogota' 
-});
+  const ahora = new Date().toLocaleDateString('es-CO', {
+    weekday: 'long',
+    timeZone: 'America/Bogota'
+  });
 
-const systemPrompt = `
+  const systemPrompt = `
 Eres el asistente de pedidos de Manolo Gastrobar, Neiva.
 Toma pedidos por WhatsApp de forma amable pero directa y sin rodeos.
 
@@ -55,7 +55,7 @@ ${nombreCliente ? `El cliente se llama ${nombreCliente}.` : 'Es un cliente nuevo
 
 VERIFICACIÓN OBLIGATORIA EN EL PRIMER MENSAJE:
 - Hoy es ${ahora}
-- Si es miércoles: responde SOLO "Hoy estamos cerrados 🙏 Abrimos lunes, martes, jueves y viernes de 7am a 3pm, y sábados y domingos de 8am a 4pm." No hagas ninguna otra pregunta.
+- Si es miércoles: responde SOLO "Hoy estamos cerrados 🙅 Abrimos lunes, martes, jueves y viernes de 7am a 3pm, y sábados y domingos de 8am a 4pm." No hagas ninguna otra pregunta.
 - Si hay servicio: saluda, di el nombre si ya lo conoces o pregúntalo si es nuevo, luego pregunta si quiere ver el menú o ya sabe qué pedir.
 
 HORARIO DE ATENCIÓN:
@@ -110,7 +110,7 @@ MENÚ CON PRECIOS (consulta en: https://manologastrobar.com/):
 - Espagueti Marinero (camarón, calamar, pulpo, palmito, mejillón y langostino apanado, ensalada y patacón) - $40.000
 - Arroz Marinero (camarón, calamar, pulpo, palmito, mejillón y langostino apanado, ensalada y patacón) - $40.000
 
-🍹 BEBIDAS:
+🍺 BEBIDAS:
 - Cerveza en lata - $6.000
 - Agua - $5.000
 - Soda - $5.000
@@ -120,7 +120,7 @@ MENÚ CON PRECIOS (consulta en: https://manologastrobar.com/):
 - Media jarra de limonada - $6.000
 - Vaso de limonada - $4.000
 
-🍚 PORCIONES:
+🍟 PORCIONES:
 - Arroz - $4.000
 - Patacón - $6.000
 - Papa francesa - $8.000
@@ -155,7 +155,7 @@ REGLAS IMPORTANTES:
 - Si el cliente pide para una hora fuera del horario, dile simplemente que estamos cerrados a esa hora e indica el horario del día
 - No inventes horarios ni intentes negociar horas de entrega
 - No preguntes el nombre al final, es siempre lo primero
-- Mantén cada mensaje en máximo 4 Lineas 
+- Mantén cada mensaje en máximo 4 Lineas
 
 IMPORTANTE:
 - Cuando tengas el pedido completo con dirección, responde EXACTAMENTE en este formato al final:
@@ -201,13 +201,17 @@ async function guardarPedido(numero, respuesta, nombreCliente) {
   try {
     // Extraer datos del formato PEDIDO_LISTO
     const match = respuesta.match(/PEDIDO_LISTO\|(.+)\|(.+)\|(.+)\|(.+)/);
-    if (!match) return;
+    if (!match) {
+      console.error('❌ No se pudo parsear el formato PEDIDO_LISTO en la respuesta:', respuesta);
+      return;
+    }
 
     const [, nombre, direccion, productos, total] = match;
 
-    // Guardar o actualizar cliente
+    // ── 1. Buscar o crear cliente ──────────────────────────────────────────
     let clienteId;
-    const { data: clienteExistente } = await supabase
+
+    const { data: clienteExistente, error: errorBusqueda } = await supabase
       .from('clientes')
       .select('id')
       .eq('whatsapp', numero)
@@ -215,18 +219,33 @@ async function guardarPedido(numero, respuesta, nombreCliente) {
 
     if (clienteExistente) {
       clienteId = clienteExistente.id;
+      console.log(`✅ Cliente existente encontrado: id=${clienteId}`);
     } else {
-      const { data: nuevoCliente } = await supabase
+      // El error "PGRST116" significa "no rows found" — es normal para clientes nuevos
+      if (errorBusqueda && errorBusqueda.code !== 'PGRST116') {
+        console.error('❌ Error buscando cliente:', errorBusqueda);
+        return;
+      }
+
+      const { data: nuevoCliente, error: errorInsert } = await supabase
         .from('clientes')
         .insert({ nombre: nombre.trim(), whatsapp: numero })
         .select('id')
         .single();
+
+      if (errorInsert || !nuevoCliente) {
+        console.error('❌ Error creando cliente:', errorInsert);
+        return;
+      }
+
       clienteId = nuevoCliente.id;
+      console.log(`✅ Cliente nuevo creado: id=${clienteId}`);
     }
 
-    // Guardar pedido
+    // ── 2. Guardar el pedido ───────────────────────────────────────────────
     const totalNumerico = parseFloat(total.replace(/[^0-9.]/g, '')) || 0;
-    const { data: pedido } = await supabase
+
+    const { data: pedido, error: errorPedido } = await supabase
       .from('pedidos')
       .insert({
         cliente_id: clienteId,
@@ -237,22 +256,37 @@ async function guardarPedido(numero, respuesta, nombreCliente) {
       .select('id')
       .single();
 
-    // Guardar items del pedido
+    if (errorPedido || !pedido) {
+      console.error('❌ Error guardando pedido:', errorPedido);
+      return;
+    }
+
+    console.log(`✅ Pedido guardado: id=${pedido.id}`);
+
+    // ── 3. Guardar items del pedido ────────────────────────────────────────
     const items = productos.split(',').map(item => {
       const partes = item.trim().split(' x ');
       return {
         pedido_id: pedido.id,
-        nombre_producto: partes[0].trim(),
+        nombre_producto: partes[0]?.trim() || item.trim(),
         cantidad: parseInt(partes[1]) || 1,
         precio_unitario: 0
       };
     });
 
-    await supabase.from('items_pedido').insert(items);
+    const { error: errorItems } = await supabase
+      .from('items_pedido')
+      .insert(items);
 
-    console.log('✅ Pedido guardado correctamente');
+    if (errorItems) {
+      console.error('❌ Error guardando items:', errorItems);
+      return;
+    }
+
+    console.log(`✅ Pedido guardado correctamente — ${items.length} item(s) para ${nombre.trim()}`);
+
   } catch (error) {
-    console.error('Error guardando pedido:', error);
+    console.error('❌ Error inesperado guardando pedido:', error);
   }
 }
 
